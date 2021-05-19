@@ -66,10 +66,10 @@ def url_check():
         try:
             response = requests.get(url, headers=headers, timeout=5)
             survival_urls[url] = response.status_code
-            # if 200 <= response.status_code <= 206:
-            #     content = response.text
-            #     title = re.findall('<title>(.+)</title>', content)
-            #     print(url + "\t" + str(response.status_code) + "\t" + title)
+            if 200 <= response.status_code <= 206:
+                content = response.text
+                title = re.findall('<title>(.+)</title>', content)
+                print(url + "\t" + str(response.status_code) + "\t" + title[0])
 
             count += 1
             print("已检测：" + str(count), end="\r")
