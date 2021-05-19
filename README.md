@@ -4,4 +4,6 @@
 # 用法
 python3 url_check.py urls.txt
 
-![image](https://user-images.githubusercontent.com/45659593/118790802-aff57080-b8c8-11eb-8b0e-1e275d16587b.png)
+![image](https://user-images.githubusercontent.com/45659593/118791243-1bd7d900-b8c9-11eb-8821-72b2f88fdf25.png)
+
+# 结果
