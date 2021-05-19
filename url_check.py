@@ -64,15 +64,21 @@ def url_check():
         url = url.strip()
         headers = get_headers(url)
         try:
+            if "http" not in url:
+                url = "http://"+ url
             response = requests.get(url, headers=headers, timeout=5)
             survival_urls[url] = response.status_code
             if 200 <= response.status_code <= 206:
+                print(url)
+                response.encoding = "utf-8"
                 content = response.text
                 title = re.findall('<title>(.+)</title>', content)
-                print(url + "\t" + str(response.status_code) + "\t" + title[0])
+                if title:
+                    print(url + "\t" + str(response.status_code) + "\t" + title[0])
 
             count += 1
             print("已检测：" + str(count), end="\r")
+
             url_queue.task_done()
 
         except Exception as e:
