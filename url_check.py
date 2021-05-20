@@ -32,7 +32,7 @@ def Banner():
               | |_| |  _ <| |___ ___) | |___| | | |  __/ (__|   < 
                \___/|_| \_\_____|____/ \____|_| |_|\___|\___|_|\_\
 
-                                                Power by ST0new  v0.3
+                                                Power by ST0new  v0.2
     """)
 
 
@@ -64,13 +64,14 @@ def url_check():
 
         url = url.strip()
         headers = get_headers(url)
+        print(url)
         try:
-            if "http" not in url:
-                url = "http://"+ url
+            
+#            if "http" not in url and len(url) != 0  :
+#                url = "http://"+ url
             response = requests.get(url, headers=headers, timeout=5,verify=False)
             survival_urls[url] = response.status_code
             if 200 <= response.status_code <= 206:
-                print(url)
                 response.encoding = "utf-8"
                 content = response.text
                 title = re.findall('<title>(.+)</title>', content)
@@ -83,7 +84,7 @@ def url_check():
             url_queue.task_done()
 
         except Exception as e:
-            continue
+            print(e)
 
 
 
@@ -95,9 +96,11 @@ def write_url():
 def threading_start(urls_list):
     for url in urls_list:
         url = url.strip()
+        if len(url) == 0:
+            continue
         url_queue.put(url)
     threads = []
-    for _ in range(100):
+    for _ in range(10):
         c = threading.Thread(target=url_check)
         threads.append(c)
         c.setDaemon(True)
@@ -125,4 +128,4 @@ if __name__ == '__main__':
     except:
         print("python3 check.py url.txt")
     urls_check(urls_txt)
-
+# 注意： url的格式要是http://xx.com
