@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 import re
 import threading, queue
 
+requests.packages.urllib3.disable_warnings()
 url_queue = queue.Queue()
 threading_num = 50
 count = 0
@@ -31,7 +32,7 @@ def Banner():
               | |_| |  _ <| |___ ___) | |___| | | |  __/ (__|   < 
                \___/|_| \_\_____|____/ \____|_| |_|\___|\___|_|\_\
 
-                                                Power by ST0new  v0.2
+                                                Power by ST0new  v0.3
     """)
 
 
@@ -66,7 +67,7 @@ def url_check():
         try:
             if "http" not in url:
                 url = "http://"+ url
-            response = requests.get(url, headers=headers, timeout=5)
+            response = requests.get(url, headers=headers, timeout=5,verify=False)
             survival_urls[url] = response.status_code
             if 200 <= response.status_code <= 206:
                 print(url)
@@ -82,7 +83,7 @@ def url_check():
             url_queue.task_done()
 
         except Exception as e:
-            print(e)
+            continue
 
 
 
@@ -124,4 +125,4 @@ if __name__ == '__main__':
     except:
         print("python3 check.py url.txt")
     urls_check(urls_txt)
-# 注意： url的格式要是http://xx.com
+
